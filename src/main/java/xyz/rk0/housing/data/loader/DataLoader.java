@@ -16,22 +16,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class DataLoader {
+public final class DataLoader {
 
     private List<HousingRecord> housingData = null;
 
     private final String filePath;
     DataLoader(
-        @Value("./real-estate-data.csv") String filePath // Passing the data file as a path lets us overwrite this in tests with a different file
+        // Passing the data file as a path lets us overwrite this in tests with a different file
+        @Value("./real-estate-data.csv") String filePath
     ) {
         this.filePath = filePath;
     }
 
     @Trace
     public List<HousingRecord> readCsv() throws IOException {
-        if(this.housingData != null) {
-            // This strategy of reading the file on the first request is a little goofy since the first user has a bad experience.
-            // Another approach would be using @PostConstruct or some other mechanism to parse the file as the server starts
+        if (this.housingData != null) {
+            // This strategy of reading the file on the first request is a little goofy since the first user has a bad
+            // experience. Another approach would be using @PostConstruct or some other mechanism to parse the file as
+            // the server starts
             return this.housingData;
         } else {
             List<HousingRecord> housingInfo = new ArrayList<>();
@@ -42,7 +44,10 @@ public class DataLoader {
                 double squareFeet = Double.parseDouble(record.get("sq__ft"));
                 String saleDateStr = record.get("sale_date");
                 String zipCode = record.get("zip");
-                LocalDate saleDate = LocalDate.parse(saleDateStr, DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy"));
+                LocalDate saleDate = LocalDate.parse(
+                        saleDateStr,
+                        DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss zzz yyyy")
+                );
 
                 HousingRecord housingRecord = new HousingRecord(price, squareFeet, zipCode, saleDate);
                 housingInfo.add(housingRecord);

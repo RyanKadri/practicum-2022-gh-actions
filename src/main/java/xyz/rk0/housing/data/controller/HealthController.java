@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @RestController
-public class HealthController {
+public final class HealthController {
 
     @GetMapping("/health")
     public String checkHealth() throws UnknownHostException {

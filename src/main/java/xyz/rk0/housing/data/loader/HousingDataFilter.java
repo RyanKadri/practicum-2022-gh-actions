@@ -10,14 +10,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class HousingDataFilter {
+public final class HousingDataFilter {
 
-    /* Note: The cleanest way to code this filter is probably in 3 separate phases. First filter by zipCode, then by startDate, then by endDate
-     * checking that each one has been provided. This method is a little lazier than the most efficient way of doing it but boy howdy is it short.
-     * Could be optimized by factoring out the null checks. They don't need to happen for every record.
+    /* Note: The cleanest way to code this filter is probably in 3 separate phases. First filter by zipCode, then by
+     * startDate, then by endDate checking that each one has been provided. This method is a little lazier than the
+     * most efficient way of doing it but boy howdy is it short. Could be optimized by factoring out the null checks.
+     * They don't need to happen for every record.
      **/
     @Trace
-    public List<HousingRecord> filterData(List<HousingRecord> allRecords, String zipCode, LocalDate startDate, LocalDate endDate) {
+    public List<HousingRecord> filterData(
+            List<HousingRecord> allRecords, String zipCode, LocalDate startDate, LocalDate endDate
+    ) {
         return allRecords.stream()
             .filter(record -> zipCode == null || record.getZipCode().equals(zipCode))
             .filter(record -> startDate == null || !record.getSaleDate().isBefore(startDate))
@@ -27,11 +30,13 @@ public class HousingDataFilter {
 
     /* Here's a way to do a similar thing with looping
      */
-    public List<HousingRecord> filterDataImperative(List<HousingRecord> allRecords, String zipCode, LocalDate startDate, LocalDate endDate) {
+    public List<HousingRecord> filterDataImperative(
+            List<HousingRecord> allRecords, String zipCode, LocalDate startDate, LocalDate endDate
+    ) {
         List<HousingRecord> filteredRecords = new ArrayList<>();
-        for(HousingRecord record : allRecords) {
+        for (HousingRecord record : allRecords) {
             boolean keep = true;
-            if(!record.getZipCode().equals(zipCode)) {
+            if (!record.getZipCode().equals(zipCode)) {
                 keep = false;
             } else if (startDate != null && record.getSaleDate().isBefore(startDate)) {
                 keep = false;
@@ -39,7 +44,7 @@ public class HousingDataFilter {
                 keep = false;
             }
 
-            if(keep) {
+            if (keep) {
                 filteredRecords.add(record);
             }
         }
