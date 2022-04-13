@@ -11,6 +11,6 @@ public final class HealthController {
 
     @GetMapping("/health")
     public String checkHealth() throws UnknownHostException {
-        return "Hello my name is: " + InetAddress.getLocalHost().getHostName() + "!!!!";
+        return "Hello my name is: " + InetAddress.getLocalHost().getHostName();
     }
 }
