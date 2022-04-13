@@ -22,7 +22,7 @@ public class HousingDataFilterTest {
                     LocalDate.parse("2020-01-01", DateTimeFormatter.ISO_LOCAL_DATE))
         );
         List<HousingRecord> filteredList = dataFilter.filterData(sampleRecords, "22345", null, null);
-        Assertions.assertEquals(List.of(sampleRecords.get(1)), filteredList);
+        Assertions.assertEquals(List.of(sampleRecords.get(0)), filteredList);
         Assertions.assertEquals(200, filteredList.get(0).getSquareFeet());
     }
 

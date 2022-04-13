@@ -24,7 +24,7 @@ public final class HousingController {
     private final HousingDataFilter dataFilter;
     private final FieldExtractor fieldExtractor;
     private final StatisticCalculator statisticCalculator;
-    private static final Logger LOGGER = LoggerFactory.getLogger(HousingController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HousingController.class);
 
     HousingController(
         DataLoader dataLoader,
@@ -47,7 +47,7 @@ public final class HousingController {
         @RequestParam String field
     ) throws IOException {
 
-        LOGGER.info("Checking housing data");
+        logger.info("Checking housing data");
         List<HousingRecord> housingData = this.dataLoader.readCsv();
         LocalDate localStartDate = startDate == null
                 ? null
@@ -58,7 +58,7 @@ public final class HousingController {
         var filteredData = this.dataFilter.filterData(housingData, zipCode, localStartDate, localEndDate);
         var values = this.fieldExtractor.extractValues(filteredData, field);
         double result = this.statisticCalculator.calculateStatistic(values, statistic);
-        LOGGER.info("Got result: " + result);
+        logger.info("Got result: " + result);
         return new HousingResult(result, filteredData.size());
     }
 }
