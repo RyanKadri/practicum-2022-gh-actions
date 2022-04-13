@@ -1,21 +1,12 @@
 package xyz.rk0.housing.data.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-public class HousingRecord {
-
-    private final double price;
-    private final double squareFeet;
-    private final String zipCode;
-    private final LocalDate saleDate;
-
-    public HousingRecord(double price, double squareFeet, String zipCode, LocalDate saleDate) {
-        this.price = price;
-        this.squareFeet = squareFeet;
-        this.zipCode = zipCode;
-        this.saleDate = saleDate;
-    }
+public record HousingRecord(
+    double price,
+    double squareFeet,
+    String zipCode,
+    LocalDate saleDate) {
 
     public double getPrice() {
         return price;

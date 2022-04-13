@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class StatisticCalculator {
+public final class StatisticCalculator {
 
     @Trace
     public double calculateStatistic(List<Double> values, String statistic) {

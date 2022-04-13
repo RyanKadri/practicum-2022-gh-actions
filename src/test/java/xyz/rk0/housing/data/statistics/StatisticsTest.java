@@ -2,7 +2,6 @@ package xyz.rk0.housing.data.statistics;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import xyz.rk0.housing.data.statistics.StatisticCalculator;
 
 import java.util.List;
 

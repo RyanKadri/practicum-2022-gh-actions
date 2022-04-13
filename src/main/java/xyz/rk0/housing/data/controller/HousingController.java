@@ -18,13 +18,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-public class HousingController {
+public final class HousingController {
 
     private final DataLoader dataLoader;
     private final HousingDataFilter dataFilter;
     private final FieldExtractor fieldExtractor;
     private final StatisticCalculator statisticCalculator;
-    private static final Logger logger = LoggerFactory.getLogger(HousingController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HousingController.class);
 
     HousingController(
         DataLoader dataLoader,
@@ -47,14 +47,18 @@ public class HousingController {
         @RequestParam String field
     ) throws IOException {
 
-        logger.info("Checking housing data");
+        LOGGER.info("Checking housing data");
         List<HousingRecord> housingData = this.dataLoader.readCsv();
-        LocalDate localStartDate = startDate == null ? null : LocalDate.parse(startDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        LocalDate localEndDate = endDate == null ? null : LocalDate.parse(endDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        List<HousingRecord> filteredData = this.dataFilter.filterData(housingData, zipCode, localStartDate, localEndDate);
-        List<Double> values = this.fieldExtractor.extractValues(filteredData, field);
+        LocalDate localStartDate = startDate == null
+                ? null
+                : LocalDate.parse(startDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        LocalDate localEndDate = endDate == null
+                ? null
+                : LocalDate.parse(endDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        var filteredData = this.dataFilter.filterData(housingData, zipCode, localStartDate, localEndDate);
+        var values = this.fieldExtractor.extractValues(filteredData, field);
         double result = this.statisticCalculator.calculateStatistic(values, statistic);
-        logger.info("Got result: " + result);
+        LOGGER.info("Got result: " + result);
         return new HousingResult(result, filteredData.size());
     }
 }

@@ -2,7 +2,6 @@ package xyz.rk0.housing.data.loader;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import xyz.rk0.housing.data.loader.DataLoader;
 import xyz.rk0.housing.data.model.HousingRecord;
 
 import java.io.IOException;
