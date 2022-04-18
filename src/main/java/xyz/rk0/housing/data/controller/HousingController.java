@@ -1,7 +1,7 @@
 package xyz.rk0.housing.data.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +24,7 @@ public final class HousingController {
     private final HousingDataFilter dataFilter;
     private final FieldExtractor fieldExtractor;
     private final StatisticCalculator statisticCalculator;
-    private static final Logger logger = LoggerFactory.getLogger(HousingController.class);
+    private static final Logger LOGGER = LogManager.getLogger(HousingRecord.class);
 
     HousingController(
         DataLoader dataLoader,
@@ -47,7 +47,7 @@ public final class HousingController {
         @RequestParam String field
     ) throws IOException {
 
-        logger.info("Checking housing data");
+        LOGGER.info("${java:version} -- Calculating " + statistic + " for " + field + " field");
         List<HousingRecord> housingData = this.dataLoader.readCsv();
         LocalDate localStartDate = startDate == null
                 ? null
@@ -55,10 +55,11 @@ public final class HousingController {
         LocalDate localEndDate = endDate == null
                 ? null
                 : LocalDate.parse(endDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-        var filteredData = this.dataFilter.filterData(housingData, zipCode, localStartDate, localEndDate);
-        var values = this.fieldExtractor.extractValues(filteredData, field);
+        List<HousingRecord> filteredData = this.dataFilter.filterData(housingData, zipCode, localStartDate, localEndDate);
+        List<Double> values = this.fieldExtractor.extractValues(filteredData, field);
         double result = this.statisticCalculator.calculateStatistic(values, statistic);
-        logger.info("Got result: " + result);
+        LOGGER.info("Got result: " + result);
         return new HousingResult(result, filteredData.size());
     }
+
 }

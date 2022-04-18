@@ -1,6 +1,5 @@
 package xyz.rk0.housing.data.statistics;
 
-import com.newrelic.api.agent.Trace;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -9,21 +8,26 @@ import java.util.List;
 @Component
 public final class StatisticCalculator {
 
-    @Trace
     public double calculateStatistic(List<Double> values, String statistic) {
 
-        return switch (statistic) {
-            case "min" -> Collections.min(values);
-            case "max" -> Collections.max(values);
-            case "average" -> values.stream()
+        switch (statistic) {
+            case "min":
+                return Collections.min(values);
+            case "max":
+                return Collections.max(values);
+            case "average":
+                return values.stream()
                 .mapToDouble(record -> record)
                 .average()
                 .orElse(0);
-            case "sum" -> values.stream()
+            case "sum":
+                return values.stream()
                 .mapToDouble(record -> record)
                 .sum();
-            case "range" -> Collections.max(values) - Collections.min(values);
-            default -> throw new IllegalArgumentException("Did not know how to calculate " + statistic);
-        };
+            case "range":
+                return Collections.max(values) - Collections.min(values);
+            default:
+                throw new IllegalArgumentException("Did not know how to calculate " + statistic);
+        }
     }
 }

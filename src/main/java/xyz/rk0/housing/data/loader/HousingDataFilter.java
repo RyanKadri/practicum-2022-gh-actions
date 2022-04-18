@@ -1,6 +1,5 @@
 package xyz.rk0.housing.data.loader;
 
-import com.newrelic.api.agent.Trace;
 import org.springframework.stereotype.Component;
 import xyz.rk0.housing.data.model.HousingRecord;
 
@@ -17,7 +16,6 @@ public final class HousingDataFilter {
      * most efficient way of doing it but boy howdy is it short. Could be optimized by factoring out the null checks.
      * They don't need to happen for every record.
      **/
-    @Trace
     public List<HousingRecord> filterData(
             List<HousingRecord> allRecords, String zipCode, LocalDate startDate, LocalDate endDate
     ) {

@@ -1,5 +1,6 @@
 package xyz.rk0.housing.data.loader;
 
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import xyz.rk0.housing.data.model.HousingRecord;
@@ -13,7 +14,7 @@ public class HousingDataFilterTest {
     @Test
     public void testZipCodeFilter() {
         HousingDataFilter dataFilter = new HousingDataFilter();
-        List<HousingRecord> sampleRecords = List.of(
+        List<HousingRecord> sampleRecords = Lists.newArrayList(
             new HousingRecord(1, 100, "12345",
                     LocalDate.parse("2020-01-01", DateTimeFormatter.ISO_LOCAL_DATE)),
             new HousingRecord(2, 200, "22345",
@@ -22,14 +23,14 @@ public class HousingDataFilterTest {
                     LocalDate.parse("2020-01-01", DateTimeFormatter.ISO_LOCAL_DATE))
         );
         List<HousingRecord> filteredList = dataFilter.filterData(sampleRecords, "22345", null, null);
-        Assertions.assertEquals(List.of(sampleRecords.get(1)), filteredList);
+        Assertions.assertEquals(Lists.newArrayList(sampleRecords.get(1)), filteredList);
         Assertions.assertEquals(200, filteredList.get(0).getSquareFeet());
     }
 
     @Test
     public void testStartDateFilter() {
         HousingDataFilter dataFilter = new HousingDataFilter();
-        List<HousingRecord> sampleRecords = List.of(
+        List<HousingRecord> sampleRecords = Lists.newArrayList(
             new HousingRecord(1, 100, "12345",
                     LocalDate.parse("2020-01-01", DateTimeFormatter.ISO_LOCAL_DATE)),
             new HousingRecord(2, 200, "22345",
@@ -47,7 +48,7 @@ public class HousingDataFilterTest {
     @Test
     public void filterMultiple() {
         HousingDataFilter dataFilter = new HousingDataFilter();
-        List<HousingRecord> sampleRecords = List.of(
+        List<HousingRecord> sampleRecords = Lists.newArrayList(
             new HousingRecord(1, 100, "12345",
                     LocalDate.parse("2020-01-01", DateTimeFormatter.ISO_LOCAL_DATE)),
             new HousingRecord(2, 200, "12345",
